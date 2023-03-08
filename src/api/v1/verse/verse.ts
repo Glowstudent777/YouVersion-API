@@ -1,6 +1,4 @@
 import express, { Request, Response, Router } from 'express'
-import fs, { readdir } from 'fs'
-import path from 'path';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 
