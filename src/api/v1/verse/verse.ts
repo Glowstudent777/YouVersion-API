@@ -1,11 +1,13 @@
 import express, { Request, Response, Router } from 'express'
 import fs, { readdir } from 'fs'
 import path from 'path';
+import axios from 'axios';
+import * as cheerio from 'cheerio';
 
 // Router
 const router: Router = express.Router();
 
-router.get("/", (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
 
     const languages = require('../db/langs.json');
     const bookList = require('../db/books.json');
@@ -21,7 +23,7 @@ router.get("/", (req: Request, res: Response) => {
         book: String,
         aliases: Array<String>,
         chapters: Number
-    } 
+    }
 
     if (!book) return res.status(400).send({
         "code": 400,
@@ -39,14 +41,32 @@ router.get("/", (req: Request, res: Response) => {
     });
 
     let URL = `${baseURL}/${lang}/${bookFinder.aliases[0]}.${chapter}.${verses}.${version}`;
-    console.log(URL);
+    const citation = `${bookFinder.book} ${chapter}:${verses} ${version}`
 
-    res.status(201).send({
-        book: bookFinder.book,
-        chapter: chapter,
-        verses: verses,
-        version: version
-    })
+    try {
+        const { data } = await axios.get(URL);
+        const $ = cheerio.load(data);
+
+        const lastVerse = $(".label").eq(-1).text();
+        if (lastVerse) throw new Error("Verse not found");
+        if (+chapter > bookFinder.chapters) throw new Error("Chapter not found.");
+
+        const versesArray: Array<String> = [];
+        const wrapper = $(".lh-copy");
+
+        await wrapper.each((i, p) => {
+            let unformattedVerse = $(p).eq(0).text();
+            let formattedVerse = unformattedVerse.replace(/\n/g, ' ');
+            versesArray.push(formattedVerse)
+        })
+
+        return res.status(201).send({
+            citation: citation,
+            passage: versesArray[0]
+        })
+    } catch (err) {
+        console.error(err);
+    }
 })
 
 module.exports = router;
