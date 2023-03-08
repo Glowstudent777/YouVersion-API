@@ -60,7 +60,7 @@ router.get("/", async (req: Request, res: Response) => {
             versesArray.push(formattedVerse)
         })
 
-        return res.status(201).send({
+        return res.status(200).send({
             citation: citation,
             passage: versesArray[0]
         })
