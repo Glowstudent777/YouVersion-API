@@ -3,70 +3,70 @@
         {
             "book": "Genesis",
             "aliases": [
-                "gen"
+                "GEN"
             ],
             "chapters": 50
         },
         {
             "book": "Exodus",
             "aliases": [
-                "exo"
+                "EXO"
             ],
             "chapters": 40
         },
         {
             "book": "Leviticus",
             "aliases": [
-                "lev"
+                "LEV"
             ],
             "chapters": 27
         },
         {
             "book": "Numbers",
             "aliases": [
-                "num"
+                "NUM"
             ],
             "chapters": 36
         },
         {
             "book": "Deuteronomy",
             "aliases": [
-                "deu"
+                "DEU"
             ],
             "chapters": 34
         },
         {
             "book": "Joshua",
             "aliases": [
-                "jos"
+                "JOS"
             ],
             "chapters": 24
         },
         {
             "book": "Judges",
             "aliases": [
-                "jdg"
+                "JDG"
             ],
             "chapters": 21
         },
         {
             "book": "Ruth",
             "aliases": [
-                "rut"
+                "RUT"
             ],
             "chapters": 4
         },
         {
             "book": "1st Samuel",
             "aliases": [
-                "1sa"
+                "1SA"
             ],
             "chapters": 31
         },
         {
             "book": "2nd Samuel",
             "aliases": [
-                "2sa"
+                "2SA"
             ],
             "chapters": 24
         },
