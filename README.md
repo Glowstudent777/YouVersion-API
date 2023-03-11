@@ -45,16 +45,54 @@ pnpm run start
 | version | NIV     | false    | KJV or NLT  |
 | lang    | en-us   | false    | en-us       |
 
-Gets `John 1:1 NIV`
+## Examples
 
+Gets `John 1:1 NIV`
 ```
 https://serverAddress.com/api/v1/verse?book=John
 ```
 
-Gets `John 3:16 NLT`
+<br>
 
+Gets `John 3:16 NLT`
 ```
 https://serverAddress.com/api/v1/verse?book=John&chapter=3&verses=16&version=NLT
+```
+
+---
+
+## Responses
+
+Requests return a JSON object and a status code.
+
+### Good Responses
+
+A good API call responds with a `200 OK` and the requested verse(s). 
+```json
+{
+  "citation": "John 3:16 NLT",
+  "passage": "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life."
+}
+```
+
+### Bad Responses
+
+If no book is specified in the query, it will prompt a `400 Bad Response` and an error message
+```json
+{
+    "code": 400,
+    "message": "Missing field 'book'"
+}
+```
+
+<br>
+
+Trying to access a book that does not exist will prompt a similar `400 Bad Response` but with a different error message
+```json
+{
+    "code": 400,
+    "message": "Could not find book 'Coffee' by name or alias."
+}
 ```
 
 # Options and Queries
