@@ -75,6 +75,13 @@ A good API call responds with a `200 OK` and the requested verse(s).
 }
 ```
 
+<br>
+
+Checking the API status is pretty simple, just make a request to the following route and if everything is fine it'll respond with a `200 OK` and no JSON object.
+```
+https://serverAddress.com/api/v1/status
+```
+
 ### Bad Responses
 
 If no book is specified in the query, it will prompt a `400 Bad Response` and an error message
