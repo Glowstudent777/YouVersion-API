@@ -31,10 +31,6 @@ router.get("/", async (req: Request, res: Response) => {
     book = book.toString();
     const lang = languages[language.toString().toLowerCase()] ??= 1;
 
-    console.log(bookList.books.forEach((book: any) => {
-        console.log(book.book, book.aliases[0])  
-    }))
-
     let bookFinder = bookList.books.find((o: bookObject) => o.book.toLowerCase() === book.toLowerCase()) || bookList.books.find((o: bookObject) => o.aliases.includes(book.toUpperCase()));
 
     if (!bookFinder) return res.status(400).send({
