@@ -67,7 +67,7 @@ Requests return a JSON object and a status code.
 
 ### Good Responses
 
-Good Response responds with a `200 OK` and the requested verse(s). 
+A good API call responds with a `200 OK` and the requested verse(s). 
 ```json
 {
   "citation": "John 3:16 NLT",
@@ -77,7 +77,7 @@ Good Response responds with a `200 OK` and the requested verse(s).
 
 ### Bad Responses
 
-Missing the book field will prompt a `400 Bad Response` and a an error message
+If no book is specified in the query, it will prompt a `400 Bad Response` and an error message
 ```json
 {
     "code": 400,
