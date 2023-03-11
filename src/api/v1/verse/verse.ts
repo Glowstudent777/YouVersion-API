@@ -17,26 +17,27 @@ router.get("/", async (req: Request, res: Response) => {
     const language = req.query.lang ??= "en-us";
     const version = req.query.version ??= "NIV";
 
-    type bookObject = {
+    type bookType = {
         book: String,
         aliases: Array<String>,
         chapters: Number
     }
 
-    if (!book) return res.status(400).send({
-        "code": 400,
-        "message": "Missing field 'book'"
-    });
+    function apiError(code: number, message: string) {
+        res.status(code).send({
+            "code": code,
+            "message": message
+        });
+    }
+
+    if (!book) return apiError(400, "Missing field 'book'");
 
     book = book.toString();
     const lang = languages[language.toString().toLowerCase()] ??= 1;
 
-    let bookFinder = bookList.books.find((o: bookObject) => o.book.toLowerCase() === book.toLowerCase()) || bookList.books.find((o: bookObject) => o.aliases.includes(book.toUpperCase()));
+    let bookFinder = bookList.books.find((o: bookType) => o.book.toLowerCase() === book.toLowerCase()) || bookList.books.find((o: bookType) => o.aliases.includes(book.toUpperCase()));
 
-    if (!bookFinder) return res.status(400).send({
-        "code": 400,
-        "message": `Could not find book '${book}' by name or alias.`
-    });
+    if (!bookFinder) return apiError(400, `Could not find book '${book}' by name or alias.`)
 
     let URL = `${baseURL}/${lang}/${bookFinder.aliases[0]}.${chapter}.${verses}.${version}`;
     const citation = `${bookFinder.book} ${chapter}:${verses} ${version}`
@@ -46,8 +47,8 @@ router.get("/", async (req: Request, res: Response) => {
         const $ = cheerio.load(data);
 
         const lastVerse = $(".label").eq(-1).text();
-        if (lastVerse) throw new Error("Verse not found");
-        if (+chapter > bookFinder.chapters) throw new Error("Chapter not found.");
+        if (lastVerse) return apiError(400, "Verse not found");
+        if (+chapter > bookFinder.chapters) return apiError(400, "Chapter not found.");
 
         const versesArray: Array<String> = [];
         const wrapper = $(".lh-copy");
