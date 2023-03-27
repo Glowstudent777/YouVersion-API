@@ -7,15 +7,14 @@ const router: Router = express.Router();
 
 router.get("/", async (req: Request, res: Response) => {
 
-    const languages = require('../db/langs.json');
+    const versions = require('../db/versions.json');
     const bookList = require('../db/books.json');
-    const baseURL = "https://www.bible.com";
+    const baseURL = "https://www.bible.com/bible";
 
     let book = req.query.book as string;
     const chapter = req.query.chapter ??= "1";
     const verses = req.query.verses ??= "1";
-    const language = req.query.lang ??= "en-us";
-    const version = req.query.version ??= "NIV";
+    let version = req.query.version ??= "KJV";
 
     type bookType = {
         book: String,
@@ -33,14 +32,18 @@ router.get("/", async (req: Request, res: Response) => {
     if (!book) return apiError(400, "Missing field 'book'");
 
     book = book.toString();
-    const lang = languages[language.toString().toLowerCase()] ??= 1;
+    version = {
+        version: Object.keys(versions)[Object.keys(versions).indexOf(version.toLocaleString().toLocaleUpperCase())] ??= "KJV",
+        id: versions[version.toString().toLocaleUpperCase()] ??= 1,
+    }
+
 
     let bookFinder = bookList.books.find((o: bookType) => o.book.toLowerCase() === book.toLowerCase()) || bookList.books.find((o: bookType) => o.aliases.includes(book.toUpperCase()));
 
     if (!bookFinder) return apiError(400, `Could not find book '${book}' by name or alias.`)
 
-    let URL = `${baseURL}/${lang}/${bookFinder.aliases[0]}.${chapter}.${verses}.${version}`;
-    const citation = `${bookFinder.book} ${chapter}:${verses} ${version}`
+    let URL = `${baseURL}/${version.id}/${bookFinder.aliases[0]}.${chapter}.${verses}`;
+    const citation = `${bookFinder.book} ${chapter}:${verses} ${version.version}`
 
     try {
         const { data } = await axios.get(URL);
