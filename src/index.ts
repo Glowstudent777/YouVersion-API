@@ -6,7 +6,7 @@ import api from './api/index';
 dotEnvExtended.load()
 
 const app: Express = express();
-const port = process.env.PORT;
+const port = process.env.PORT ?? 3000;
 
 app.use(express.json());
 
