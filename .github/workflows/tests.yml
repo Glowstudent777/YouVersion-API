@@ -1,0 +1,23 @@
+name: Tests
+
+on:
+  push:
+      branches: [ main ]
+  pull_request:
+      branches: [ main ]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name : Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - run: pnpm run test
