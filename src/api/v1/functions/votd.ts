@@ -1,17 +1,17 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
+import axios from 'axios';
+import * as cheerio from 'cheerio';
 
-(async () => {
-    const URL = "https://www.bible.com/verse-of-the-day";
+const URL = "https://www.bible.com/verse-of-the-day";
+export const getVotd = async () => {
     try {
         const { data } = await axios.get(URL);
         const $ = cheerio.load(data);
 
-        const versesArray = [];
-        const citationsArray = [];
-        const imageArray = [];
+        const versesArray: Array<String> = [];
+        const citationsArray: Array<String> = [];
+        const imageArray: Array<String> = [];
 
-        const verses = $("a.text-gray-50");
+        const verses = $("a.text-text-light.w-full.no-underline");
         const citations = $("p.text-gray-25");
         const images = $("a.block");
 
@@ -27,16 +27,16 @@ const cheerio = require('cheerio');
         })
 
         await images.each((i, p) => {
-            let image = `https://www.bible.com${$(p).find('img').attr().src}`
+            let image = `https://www.bible.com${$(p).find('img').attr()?.src}`
             imageArray.push(image);
         })
 
-        console.log({
+        return {
             citation: citationsArray[0],
             passage: versesArray[0],
-            image: imageArray
-        })
+            image: imageArray ?? []
+        }
     } catch (err) {
         console.error(err);
     }
-})();
+}
