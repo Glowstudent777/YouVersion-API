@@ -1,4 +1,5 @@
 import { getVerse } from "../src/api/v1/functions/verse";
+import { expect, it, describe } from 'vitest';
 
 describe("getVerse", () => {
     it("John 3:16", async () => {
