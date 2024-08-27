@@ -30,7 +30,7 @@ export const getVerse = async (book: string, chapter: string, verses: string, ve
         if (unavailable) return { code: 400, message: "Verse not found" };
 
         const versesArray: Array<String> = [];
-        const wrapper = $(".text-19");
+        const wrapper = $(".text-17");
 
         await wrapper.each((i, p) => {
             let unformattedVerse = $(p).eq(0).text();
