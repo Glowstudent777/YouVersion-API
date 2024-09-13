@@ -14,17 +14,15 @@ export const getVotd = async () => {
         const nextWay = $("script#__NEXT_DATA__").eq(0);
         if (nextWay != null) {
             let json = JSON.parse(nextWay.html() || "");
-            const verse = json.props.pageProps.verses[0].content;
+            const verse = json.props.pageProps.verses[0].content.replace(/\n/g, ' ');
             const reference = json.props.pageProps.verses[0].reference.human;
             const version = json.props.pageProps.versionData.abbreviation;
-            const images = json.props.pageProps.arrayOfVerses[0].images.images;
-
-            await images.forEach((i: any) => {
-                if (i.usfm) {
-                    let image = `https://www.bible.com/_next/image?url=https:${(i.renditions[3].url as string)}&w=640&q=75`;
-                    imageArray.push(image);
-                }
-            });
+            
+            const images = $("a.block");
+            await images.each((i, p) => {
+                let image = `https://www.bible.com${$(p).find('img').attr()?.src}`
+                imageArray.push(image);
+            })
 
             return {
                 citation: `${reference}`,
