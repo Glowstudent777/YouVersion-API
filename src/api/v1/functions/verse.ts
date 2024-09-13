@@ -18,7 +18,7 @@ export const getVerse = async (book: string, chapter: string, verses: string, ve
     }
 
     let bookFinder = bookList.books.find((o: bookType) => o.book.toLowerCase() === book.toLowerCase()) || bookList.books.find((o: bookType) => o.aliases.includes(book.toUpperCase()));
-    if (!bookFinder) return {code: 400, message: `Could not find book '${book}' by name or alias.`}
+    if (!bookFinder) return { code: 400, message: `Could not find book '${book}' by name or alias.` }
 
     let URL = `${baseURL}/${versionFinder.id}/${bookFinder.aliases[0]}.${chapter}.${verses}`;
 
@@ -29,18 +29,33 @@ export const getVerse = async (book: string, chapter: string, verses: string, ve
         const unavailable = $("p:contains('No Available Verses')").text();
         if (unavailable) return { code: 400, message: "Verse not found" };
 
-        const versesArray: Array<String> = [];
-        const wrapper = $(".text-17");
+        // Nextjs way :)
+        const nextWay = $("script#__NEXT_DATA__").eq(0);
+        if (nextWay) {
+            let json = JSON.parse(nextWay.html() || "");
+            const verse = json.props.pageProps.verses[0].content;
+            const reference = json.props.pageProps.verses[0].reference.human
 
-        await wrapper.each((i, p) => {
-            let unformattedVerse = $(p).eq(0).text();
-            let formattedVerse = unformattedVerse.replace(/\n/g, ' ');
-            versesArray.push(formattedVerse)
-        })
+            return {
+                citation: `${reference}`,
+                passage: verse,
+            }
+        }
+        // Old way :(
+        else {
+            const versesArray: Array<String> = [];
+            const wrapper = $(".text-17");
 
-        return {
-            citation: `${bookFinder.book} ${chapter}:${verses}`,
-            passage: versesArray[0]
+            await wrapper.each((i, p) => {
+                let unformattedVerse = $(p).eq(0).text();
+                let formattedVerse = unformattedVerse.replace(/\n/g, ' ');
+                versesArray.push(formattedVerse)
+            })
+
+            return {
+                citation: `${bookFinder.book} ${chapter}:${verses}`,
+                passage: versesArray[0]
+            }
         }
     } catch (err) {
         console.error(err);
