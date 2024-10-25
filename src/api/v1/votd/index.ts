@@ -12,6 +12,16 @@ const router: Router = express.Router();
  *   get:
  *     summary: Verse of the day
  *     tags: [Bible]
+ *     parameters:
+ *       - name: lang
+ *         in: query
+ *         required: false
+ *         description: |
+ *              Language code for the verse of the day (e.g., sk, en, fr, de). Defaults to 'en' if not provided. 
+ *              You can provide list of comma separated languages. First found language is returned.
+ *         schema:
+ *           type: string
+ *           example: sk,en,de
  *     responses:
  *       200:
  *         description: OK
@@ -22,7 +32,8 @@ const router: Router = express.Router();
  *               example: OK
  */
 router.get("/", async (req: Request, res: Response) => {
-    const data = await getVotd();
+    const lang = req.query.lang as string || "en";
+    const data = await getVotd(lang);
     res.status(200).send(data);
 })
 
