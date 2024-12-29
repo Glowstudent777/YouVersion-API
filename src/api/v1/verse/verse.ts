@@ -38,6 +38,7 @@ const router: Router = express.Router();
  *       - in: query
  *         name: version
  *         required: false
+ *         description: For the list of Bible versions available, see <a href="https://www.bible.com/versions">https://www.bible.com/versions</a>
  *         schema:
  *           type: string
  *           default: KJV
