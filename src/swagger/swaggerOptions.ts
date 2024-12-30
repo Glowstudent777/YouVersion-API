@@ -13,8 +13,8 @@ export const swaggerOptions: swaggerJSDoc.Options = {
     }
   },
   apis: [
-    "./src/api/v1/verse/*.ts",
-    "./src/api/v1/votd/*.ts",
-    "./src/api/v1/status.ts"
+    "./dist/api/v1/verse/*.js",
+    "./dist/api/v1/votd/*.js",
+    "./dist/api/v1/status.js"
   ]
 };
