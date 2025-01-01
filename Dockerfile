@@ -2,7 +2,7 @@ FROM node:23-alpine AS builder
 
 WORKDIR /app
 
-RUN npm install -g pnpm
+RUN yarn global add pnpm
 
 COPY package.json pnpm-lock.yaml ./
 
@@ -21,7 +21,7 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
 
-RUN npm install -g pnpm && pnpm install --prod
+RUN yarn global add pnpm && pnpm install --prod
 
 EXPOSE 3000
 
