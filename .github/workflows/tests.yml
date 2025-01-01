@@ -2,17 +2,19 @@ name: Tests
 
 on:
   push:
-      branches: [ main ]
+    branches: [main]
   pull_request:
-      branches: [ main ]
+    branches: [main]
 
 jobs:
   tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name : Checkout repo
+      - name: Checkout repo
         uses: actions/checkout@v2
+        with:
+          submodules: true
 
       - name: Set up Node
         uses: actions/setup-node@v3
