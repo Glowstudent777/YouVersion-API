@@ -1,7 +1,7 @@
-import express, { Request, Response, Router } from 'express'
-import axios from 'axios';
-import * as cheerio from 'cheerio';
-import { getVotd } from '../functions/votd';
+import express, { Request, Response, Router } from "express";
+import axios from "axios";
+import * as cheerio from "cheerio";
+import { getVotd } from "../core/functions/votd";
 
 // Router
 const router: Router = express.Router();
@@ -17,7 +17,7 @@ const router: Router = express.Router();
  *         in: query
  *         required: false
  *         description: |
- *              Language code for the verse of the day (e.g., sk, en, fr, de). Defaults to 'en' if not provided. 
+ *              Language code for the verse of the day (e.g., sk, en, fr, de). Defaults to 'en' if not provided.
  *              You can provide list of comma separated languages. First found language is returned.
  *         schema:
  *           type: string
@@ -32,9 +32,9 @@ const router: Router = express.Router();
  *               example: OK
  */
 router.get("/", async (req: Request, res: Response) => {
-    const lang = req.query.lang as string || "en";
-    const data = await getVotd(lang);
-    res.status(200).send(data);
-})
+  const lang = (req.query.lang as string) || "en";
+  const data = await getVotd(lang);
+  res.status(200).send(data);
+});
 
 module.exports = router;

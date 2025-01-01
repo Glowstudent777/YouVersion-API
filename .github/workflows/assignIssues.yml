@@ -1,17 +1,25 @@
-name: Assign Issues
+name: Tests
 
 on:
-    issues:
-        types: [opened]
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-    auto-assign:
-        runs-on: ubuntu-latest
-        permissions:
-            issues: write
-        steps:
-            - name: 'Auto-assign issue'
-              uses: pozil/auto-assign-issue@v2
-              with:
-                  assignees: Glowstudent777
-                  allowSelfAssign: false
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - run: npm run test

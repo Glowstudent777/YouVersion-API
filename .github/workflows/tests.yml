@@ -2,17 +2,19 @@ name: Tests
 
 on:
   push:
-      branches: [ main ]
+    branches: [main]
   pull_request:
-      branches: [ main ]
+    branches: [main]
 
 jobs:
-  tests:
+  function-tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name : Checkout repo
+      - name: Checkout repo
         uses: actions/checkout@v2
+        with:
+          submodules: true
 
       - name: Set up Node
         uses: actions/setup-node@v3
@@ -21,3 +23,21 @@ jobs:
         run: npm install
 
       - run: npm run test
+
+  docker-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Docker image
+        run: docker build -t youversion-api .
