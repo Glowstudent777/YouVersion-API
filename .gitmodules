@@ -1,0 +1,3 @@
+[submodule "core"]
+	path = src/api/v1/core
+	url = https://github.com/Glowstudent777/YouVersion-Core
