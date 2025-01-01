@@ -9,7 +9,7 @@
     "start": "npm run build && node ./dist/index.js",
     "dev": "tsc-watch --onSuccess \"node ./dist/index.js\"",
     "test": "vitest",
-    "test:coverage":  "vitest run --coverage"
+    "test:coverage": "vitest run --coverage"
   },
   "repository": {
     "type": "git",
