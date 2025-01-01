@@ -1,17 +1,24 @@
 {
   "compilerOptions": {
-    "target": "es2016",
-    "module": "commonjs",
-    "strict": true,
-    "outDir": "./dist",
+    "allowJs": false,
+    "declaration": true,
+    "declarationMap": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-	"resolveJsonModule": true
+    "emitDeclarationOnly": true,
+    "target": "ES2021",
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "strict": true,
+    "skipLibCheck": true
   },
-  "include":[ 
-    "src/**/*",
-    "src/**/*.json",
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/__tests__",
+    "**/*.test.ts",
+    "**/vitest.config.*"
   ],
   "watchOptions": {
     "watchFile": "useFsEvents",
