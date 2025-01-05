@@ -1,7 +1,6 @@
 import express, { Request, Response, Router } from "express";
-import axios from "axios";
-import * as cheerio from "cheerio";
 import { getVotd } from "../core/functions/votd";
+import { getVotdExpireTime, redis } from "../../../redis";
 
 // Router
 const router: Router = express.Router();
@@ -32,9 +31,24 @@ const router: Router = express.Router();
  *               example: OK
  */
 router.get("/", async (req: Request, res: Response) => {
-  const lang = (req.query.lang as string) || "en";
-  const data = await getVotd(lang);
-  res.status(200).send(data);
+  try {
+    redis.get("votd", async (err, data) => {
+      if (data) {
+        console.log("Verse of the day fetched from Redis");
+        res.status(200).send(JSON.parse(data));
+      } else {
+        const lang = (req.query.lang as string) || "en";
+        const data = await getVotd(lang);
+
+        redis.set("votd", JSON.stringify(data), "EX", getVotdExpireTime());
+
+        console.log("Verse of the day fetched from API");
+        res.status(200).send(data);
+      }
+    });
+  } catch (err: Error | any) {
+    res.status(500).send("Error getting verse of the day: " + err.message);
+  }
 });
 
 module.exports = router;

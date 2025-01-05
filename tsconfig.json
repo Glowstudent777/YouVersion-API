@@ -4,7 +4,7 @@
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
-    "emitDeclarationOnly": true,
+    "emitDeclarationOnly": false,
     "target": "ES2021",
     "module": "CommonJS",
     "outDir": "./dist",
