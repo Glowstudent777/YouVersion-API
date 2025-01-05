@@ -1,7 +1,12 @@
 import Redis from "ioredis";
 
 export const redis = new Redis(
-  "redis://default:SecurePassword@10.77.1.114:6379"
+  process.env.REDIS_URL ?? "redis://default:SecurePassword@localhost:6379",
+  {
+    tls: {
+      rejectUnauthorized: false,
+    },
+  }
 );
 
 export function connectRedis() {
