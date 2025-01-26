@@ -2,7 +2,7 @@ import express, { Express } from "express";
 import dotEnvExtended from "dotenv-extended";
 import api from "./api/index";
 import { addSwagger } from "./swagger";
-import { clearVotdCache } from "./redis";
+import { clearVotdCache } from "./cache";
 
 dotEnvExtended.load();
 

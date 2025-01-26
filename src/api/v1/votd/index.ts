@@ -1,6 +1,6 @@
 import express, { Request, Response, Router } from "express";
 import { getVotd } from "../core/functions/votd";
-import { getVotdExpireTime, redis } from "../../../redis";
+import { getFromCache, getVotdExpireTime, setToCache } from "../../../cache";
 
 // Router
 const router: Router = express.Router();
@@ -32,7 +32,7 @@ const router: Router = express.Router();
  */
 router.get("/", async (req: Request, res: Response) => {
   try {
-    redis.get("votd", async (err, data) => {
+    getFromCache("votd", async (err, data) => {
       if (data) {
         console.log("Verse of the day fetched from Redis");
         res.status(200).send(JSON.parse(data));
@@ -40,7 +40,7 @@ router.get("/", async (req: Request, res: Response) => {
         const lang = (req.query.lang as string) || "en";
         const data = await getVotd(lang);
 
-        redis.set("votd", JSON.stringify(data), "EX", getVotdExpireTime());
+        setToCache("votd", JSON.stringify(data), getVotdExpireTime());
 
         console.log("Verse of the day fetched from API");
         res.status(200).send(data);
