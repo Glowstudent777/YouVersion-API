@@ -15,24 +15,8 @@ git clone --recurse https://github.com/Glowstudent777/YouVersion-API.git && cd Y
 > **Note**
 > I use `pnpm` in these examples. `NPM` will also work if you don't have or want to install `pnpm`
 
-First step is of course installing the modules
-
 ```bash
-pnpm i
-```
-
-## Building
-
-To build I think you can just use the `tsc` command.
-
-```bash
-tsc
-```
-
-If you cannot use `tsc` try
-
-```bash
-npx tsc
+pnpm i && pnpm run build
 ```
 
 ## Running
