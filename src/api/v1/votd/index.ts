@@ -34,7 +34,8 @@ router.get("/", async (req: Request, res: Response) => {
   try {
     getFromCache("votd", async (err, data) => {
       if (data) {
-        console.log("Verse of the day fetched from Redis");
+        if (process.env.NODE_ENV === "development")
+          console.log("Verse of the day fetched from Memory");
         res.status(200).send(JSON.parse(data));
       } else {
         const lang = (req.query.lang as string) || "en";
@@ -42,7 +43,8 @@ router.get("/", async (req: Request, res: Response) => {
 
         setToCache("votd", JSON.stringify(data), getVotdExpireTime());
 
-        console.log("Verse of the day fetched from API");
+        if (process.env.NODE_ENV === "development")
+          console.log("Verse of the day fetched from API");
         res.status(200).send(data);
       }
     });

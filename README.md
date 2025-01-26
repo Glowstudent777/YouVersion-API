@@ -2,6 +2,14 @@
 
 Express Rest API for getting verses and such from YouVersion.
 
+# Cloning
+
+Because this project uses submodules, you'll need to clone it with the `--recurse` flag.
+
+```bash
+git clone --recurse https://github.com/Glowstudent777/YouVersion-API.git && cd YouVersion-API
+```
+
 # Building and Running
 
 > **Note**
@@ -9,7 +17,7 @@ Express Rest API for getting verses and such from YouVersion.
 
 First step is of course installing the modules
 
-```
+```bash
 pnpm i
 ```
 
@@ -80,6 +88,7 @@ A good API call responds with a `200 OK` and the requested verse(s).
 <br>
 
 Checking the API status is pretty simple, just make a request to the following route and if everything is fine it'll respond with a `200 OK` and no JSON object.
+
 ```
 https://serverAddress.com/api/v1/status
 ```

@@ -4,13 +4,6 @@ services:
     ports:
       - "3000:3000"
 
-  redis:
-    image: redis/redis-stack-server:latest
-    networks:
-      - dokploy-network
-    expose:
-      - "6379"
-
 networks:
   dokploy-network:
     external: true
