@@ -7,7 +7,7 @@
   "scripts": {
     "build": "npm run clean && npx tsc && npm run copyfiles",
     "clean": "npx rimraf --glob dist/",
-    "copyfiles": "cp ./src/api/v1/core/db/ ./dist/api/v1/core/db/ -r",
+    "copyfiles": "mkdir \"dist/api/v1/core/db\" && cp ./src/api/v1/core/db/ ./dist/api/v1/core/db/ -r",
     "dev": "npm run copyfiles && tsc-watch --onSuccess \"node ./dist/index.js\"",
     "start": "node ./dist/index.js",
     "test": "vitest",
