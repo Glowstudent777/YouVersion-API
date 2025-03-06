@@ -5,10 +5,13 @@
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "npm run clean && npx tsc && npm run copyfiles",
+    "build:windows": "npm run clean && npx tsc && npm run copyfiles:windows",
+    "build:linux": "npm run clean && npx tsc && npm run copyfiles:linux",
     "clean": "npx rimraf --glob dist/",
-    "copyfiles": "mkdir \"dist\\api\\v1\\core\\db\" && cp ./src/api/v1/core/db/ ./dist/api/v1/core -r",
-    "dev": "npm run clean && npm run copyfiles && tsc-watch --onSuccess \"node ./dist/index.js\"",
+    "copyfiles:linux": "mkdir \"dist\\api\\v1\\core\\db\" && cp ./src/api/v1/core/db/ ./dist/api/v1/core -r",
+    "copyfiles:windows": "mkdir \"dist\\api\\v1\\core\\db\" && xcopy .\\src\\api\\v1\\core\\db\\ .\\dist\\api\\v1\\core\\db\\ /s /e",
+    "dev:windows": "npm run clean && npm run copyfiles:windows && tsc-watch --onSuccess \"node ./dist/index.js\"",
+    "dev:linux": "npm run clean && npm run copyfiles:linux && tsc-watch --onSuccess \"node ./dist/index.js\"",
     "start": "node ./dist/index.js",
     "test": "vitest",
     "test:coverage": "vitest run --coverage"
