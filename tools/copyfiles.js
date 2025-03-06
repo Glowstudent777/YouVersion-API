@@ -28,7 +28,7 @@ function copyFilesLinux() {
 
   runCommand('mkdir -p dist/api/v1/core/db');
 
-  runCommand('cp -r ./src/api/v1/core/db/ ./dist/api/v1/core');
+  runCommand('cp -r ./src/api/v1/core/db/* ./dist/api/v1/core/db');
 
   console.log('Files copied successfully for Linux.');
 }
@@ -38,7 +38,7 @@ function copyFilesMac() {
 
   runCommand('mkdir -p dist/api/v1/core/db');
 
-  runCommand('cp -r ./src/api/v1/core/db/ ./dist/api/v1/core');
+  runCommand('cp -r ./src/api/v1/core/db/* ./dist/api/v1/core/db');
 
   console.log('Files copied successfully for macOS.');
 }
