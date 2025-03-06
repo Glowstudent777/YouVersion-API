@@ -1,0 +1,38 @@
+name: Build On Mac
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify build output
+        run: |
+          if [ ! -d "dist/api/v1/core/db" ]; then
+            echo "❌ Error: Directory dist/api/v1/core/db does not exist!"
+            exit 1
+          elif [ -z "$(ls -A dist/api/v1/core/db 2>/dev/null)" ]; then
+            echo "❌ Error: No files found in dist/api/v1/core/db!"
+            exit 1
+          else
+            echo "✅ Success: Files found in dist/api/v1/core/db"
+          fi
