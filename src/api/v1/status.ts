@@ -1,4 +1,4 @@
-import express, {Request, Response, Router} from 'express'
+import express, { Request, Response, Router } from "express";
 
 // Router
 const router: Router = express.Router();
@@ -19,7 +19,7 @@ const router: Router = express.Router();
  *               type: string
  *               example: OK
  */
-router.get("/",(req: Request, res: Response)=>{
-    res.sendStatus(200);
-})
-module.exports=router;
+router.get("/", (req: Request, res: Response) => {
+  res.sendStatus(200).json();
+});
+module.exports = router;

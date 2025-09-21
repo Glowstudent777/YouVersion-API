@@ -30,7 +30,7 @@ const router: Router = express.Router();
  *           default: 3
  *       - in: query
  *         name: verses
- *         description: The verses
+ *         description: The verses. Can be single e.g. 5, or range, e.g. 5-10, or comma separated. e.g. 5,10.
  *         required: false
  *         schema:
  *           type: string
@@ -46,7 +46,7 @@ const router: Router = express.Router();
  *       200:
  *         description: OK
  *         content:
- *           text/plain:
+ *           text/json:
  *             schema:
  *               type: string
  *               example: OK
@@ -75,11 +75,11 @@ router.get("/", async (req: Request, res: Response) => {
     book,
     chapter.toString(),
     verses.toString(),
-    version.toString()
+    version.toString(),
   );
 
   if (data?.code) return apiError(data.code, data.message);
-  else return res.status(200).send(data);
+  else return res.status(200).json(data);
 });
 
 module.exports = router;
